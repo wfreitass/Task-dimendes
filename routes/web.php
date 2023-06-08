@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+Route::controller(TaskController::class)->group(function () {
+    // Route::get('/prompts', 'index')->name('prompts');
+    // Route::get('/prompts', 'getAll')->name('prompts');
+    // Route::get('/prompts/{id}', 'getById')->name('prompt');
+    Route::get('/tasks', 'index')->name('tasks');
+    Route::get('/tasks/create', 'create')->name('task-create');
+    Route::post('/tasks/store', 'store')->name('task-store');
+});

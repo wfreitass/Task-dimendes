@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\User;
+use App\Services\TaskService;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $task = $this->taskService->getAll();
+        return view('tasks.index', ['task' => $task]);
     }
 
     /**
@@ -25,7 +38,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $usuarios = User::orderBy('name', 'ASC')->get();
+        return view('tasks.create', ['usuarios' => $usuarios]);
     }
 
     /**
@@ -36,7 +50,16 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        if ($request->isMethod('post')) {
+            $dados = $request->all();
+            $dados['id_user_create'] = Auth::user()->id;
+            $task = $this->taskService->create($dados);
+            if ($task) {
+                return redirect('tasks')->with('success', 'Tarefa Adicionada com sucesso');
+            } else {
+                return redirect('tasks')->with('success', 'Erro ao tentar inserir uma nova tarefa ');
+            }
+        }
     }
 
     /**
