@@ -28,7 +28,7 @@
 
                                 <input type="text" class="form-control w-50" id="fielter" name="search"
                                     placeholder="Procurar ....">
-                                <button type="submit" class="btn btn-primary">Procurar</button>
+                                <button type="submit" class="btn btn-primary ms-2">Procurar</button>
                             </div>
 
                         </form>
@@ -80,7 +80,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            class="btn btn-danger btn-delete">Excluir</button>
+                                                            class="btn btn-danger btn-delete ms-2">Excluir</button>
                                                     </form>
                                                 </div>
                                             </td>
