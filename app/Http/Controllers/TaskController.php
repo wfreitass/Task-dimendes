@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\User;
 use App\Services\TaskService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -117,5 +118,17 @@ class TaskController extends Controller
         } else {
             return redirect('tasks')->with('success', 'Erro ao tentar editar uma tarefa');
         }
+    }
+
+
+    public function search(Request $request)
+    {
+        if ($request->get('search')) {
+
+            $tasks = $this->taskService->search($request->get('search'));
+        } else {
+            $tasks = $this->taskService->getAll();
+        }
+        return view('tasks.index', ['tasks' => $tasks]);
     }
 }

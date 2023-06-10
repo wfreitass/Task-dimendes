@@ -43,4 +43,9 @@ class TaskRepository implements TaskRepositoryInterface
 
         return $task->delete();
     }
+
+    public function search($paramenter)
+    {
+        return $this->task->where('title', 'like', '%' . $paramenter . '%')->paginate(10);
+    }
 }
