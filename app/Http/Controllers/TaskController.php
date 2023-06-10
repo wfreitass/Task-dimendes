@@ -27,8 +27,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = $this->taskService->getAll();
-        return view('tasks.index', ['task' => $task]);
+        $tasks = $this->taskService->getAll();
+        return view('tasks.index', ['tasks' => $tasks]);
     }
 
     /**

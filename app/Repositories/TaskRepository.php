@@ -16,8 +16,8 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function getAll()
     {
-        return $this->task->all();
-        // return $this->task->with('prompts')->get();
+        // return $this->task->all();
+        return $this->task->with(['userCreate', 'userResponse'])->get();
     }
 
     public function getById($id)

@@ -17,28 +17,32 @@
                             href="{{ route('task-create') }}" role="button">Cadastrar Tarefa</a></div>
                 </div>
 
-                @if ($task->count() > 0)
+                @if ($tasks->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-borderless table-primary align-middle">
                             <thead class="table-light">
                                 <caption>Table Name</caption>
                                 <tr>
-                                    <th>Column 1</th>
-                                    <th>Column 2</th>
-                                    <th>Column 3</th>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Criador</th>
+                                    <th>Responsável</th>
+                                    <th>Data Criação</th>
+                                    <th>Data Alteração</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                <tr class="table-primary">
-                                    <td scope="row">Item</td>
-                                    <td>Item</td>
-                                    <td>Item</td>
-                                </tr>
-                                <tr class="table-primary">
-                                    <td scope="row">Item</td>
-                                    <td>Item</td>
-                                    <td>Item</td>
-                                </tr>
+                                @foreach ($tasks as $key => $task)
+                                    <tr class="table-primary">
+                                        <td scope="row">{{ $key + 1 }}</td>
+                                        <td>{{ $task->title }}</td>
+                                        <td>{{ $task->userCreate->name }}</td>
+                                        <td>{{ $task->userResponse->name }}</td>
+                                        <td>{{ strftime('%d/%m/%Y', strtotime($task->created_at)) }}</td>
+                                        <td>{{ strftime('%d/%m/%Y', strtotime($task->updated_at)) }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                             </tfoot>

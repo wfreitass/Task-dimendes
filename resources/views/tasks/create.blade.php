@@ -27,7 +27,7 @@
                         <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Button</button>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
 
 
