@@ -22,7 +22,29 @@
                 </div>
 
                 @if ($tasks->count() > 0)
-                    <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7">
+                            <form method="POST" action="#">
+                                <div class="form-group d-flex">
+
+                                    <input type="text" class="form-control w-50" id="fielter"
+                                        placeholder="Procurar ....">
+                                    <button type="submit" class="btn btn-primary">Procurar</button>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-sm-12 col-md-5">
+                            <select class="form-control" id="filteroptions">
+                                <option selected disabled>Filtrar</option>
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                                <option value="">4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover table-borderless table-primary align-middle">
                             <thead class="table-light">
                                 <caption>Table Name</caption>
@@ -65,6 +87,7 @@
                             </tfoot>
                         </table>
                     </div>
+                    {{ $tasks->links() }}
                 @else
                     <div class="alert alert-warning" role="alert">
                         <strong>Nenhuma tarefa encontrada</strong>
@@ -74,4 +97,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection
