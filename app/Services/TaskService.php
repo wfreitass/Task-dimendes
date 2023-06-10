@@ -20,4 +20,10 @@ class TaskService extends BaseService
         // dd($this->taskRepository);
         return  $this->taskRepository->search($paramenter);
     }
+
+    public function filter(string $paramenter)
+    {
+        // dd($this->taskRepository);
+        return  $this->taskRepository->filter($paramenter);
+    }
 }

@@ -25,9 +25,13 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = $this->taskService->getAll();
+        if ($request->isMethod('post')) {
+            $tasks = $this->taskService->filter($request->get('order'));
+        } else {
+            $tasks = $this->taskService->getAll();
+        }
         return view('tasks.index', ['tasks' => $tasks]);
     }
 

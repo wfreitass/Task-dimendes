@@ -17,7 +17,7 @@ class TaskRepository implements TaskRepositoryInterface
     public function getAll()
     {
         // return $this->task->all();
-        return $this->task->with(['userCreate', 'userResponse'])->paginate(10);
+        return $this->task->with(['userCreate', 'userResponse'])->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function getById($id)
@@ -47,5 +47,20 @@ class TaskRepository implements TaskRepositoryInterface
     public function search($paramenter)
     {
         return $this->task->where('title', 'like', '%' . $paramenter . '%')->paginate(10);
+    }
+
+    public function filter($paramenter)
+    {
+        switch ($paramenter) {
+            case '1':
+                return $this->task->with(['userCreate', 'userResponse'])->orderBy('title', 'asc')->paginate(10);
+                break;
+            case '2':
+                return $this->task->with(['userCreate', 'userResponse'])->orderBy('created_at', 'asc')->paginate(10);
+                break;
+            default:
+                return $this->getAll();
+                break;
+        }
     }
 }

@@ -34,20 +34,21 @@
                         </form>
                     </div>
                     <div class="col-sm-12 col-md-5">
-                        <select class="form-control" id="filteroptions">
-                            <option selected disabled>Filtrar</option>
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option>
-                        </select>
+                        <form method="POST" action="{{ route('tasks') }}" id="form-order">
+                            @csrf
+                            <select class="form-control" id="order" name="order">
+                                <option selected disabled>Ordenar</option>
+                                <option value="1">Título</option>
+                                <option value="2">Data de Criação</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
                 @if ($tasks->count() > 0)
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover table-borderless table-primary align-middle">
                             <thead class="table-light">
-                                <caption>Table Name</caption>
+                                <caption></caption>
                                 <tr>
                                     <th>#</th>
                                     <th>Title</th>
@@ -55,7 +56,9 @@
                                     <th>Responsável</th>
                                     <th>Data Criação</th>
                                     <th>Data Alteração</th>
-                                    <th>Ações</th>
+                                    @can('is_logged')
+                                        <th>Ações</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
@@ -67,19 +70,21 @@
                                         <td>{{ $task->userResponse->name }}</td>
                                         <td>{{ strftime('%d/%m/%Y', strtotime($task->created_at)) }}</td>
                                         <td>{{ strftime('%d/%m/%Y', strtotime($task->updated_at)) }}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-evenly">
-                                                <a href="{{ route('task-edit', ['task' => $task]) }}" type="button"
-                                                    class="btn btn-warning mr-1">Editar</a>
-                                                <form action="{{ route('task-delete', ['id' => $task->id]) }}"
-                                                    method="post" class="form-delete">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-delete">Excluir</button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                        @can('is_logged')
+                                            <td>
+                                                <div class="d-flex justify-content-evenly">
+                                                    <a href="{{ route('task-edit', ['task' => $task]) }}" type="button"
+                                                        class="btn btn-warning mr-1">Editar</a>
+                                                    <form action="{{ route('task-delete', ['id' => $task->id]) }}"
+                                                        method="post" class="form-delete">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-delete">Excluir</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -98,5 +103,10 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById('order').addEventListener('change', function() {
+            document.getElementById('form-order').submit();
+        });
+    </script>
 
 @endsection

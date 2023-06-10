@@ -24,7 +24,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::controller(TaskController::class)->group(function () {
-    Route::get('/tasks', 'index')->name('tasks');
+    Route::match(['get', 'post'], '/tasks', 'index')->name('tasks');
     Route::post('/tasks/search', 'search')->name('search');
     Route::get('/tasks/create', 'create')->name('task-create')->can('is_logged');
     Route::post('/tasks/store', 'store')->name('task-store')->can('is_logged');

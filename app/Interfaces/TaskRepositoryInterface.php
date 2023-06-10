@@ -13,4 +13,8 @@ interface TaskRepositoryInterface
     public function update($id, array $attributes);
 
     public function delete($id);
+
+    public function search($paramenter);
+
+    public function filter($paramenter);
 }
