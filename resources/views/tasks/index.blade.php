@@ -13,8 +13,12 @@
                     <div class="col-6">
                         <h1>Tarefas</h1>
                     </div>
-                    <div class="col-6 text-end"> <a name="cadastro" id="cadastr" class="btn btn-success"
-                            href="{{ route('task-create') }}" role="button">Cadastrar Tarefa</a></div>
+                    @can('is_logged')
+                        <div class="col-6 text-end">
+                            <a name="cadastro" id="cadastr" class="btn btn-success" href="{{ route('task-create') }}"
+                                role="button">Cadastrar Tarefa</a>
+                        </div>
+                    @endcan
                 </div>
 
                 @if ($tasks->count() > 0)
@@ -41,6 +45,19 @@
                                         <td>{{ $task->userResponse->name }}</td>
                                         <td>{{ strftime('%d/%m/%Y', strtotime($task->created_at)) }}</td>
                                         <td>{{ strftime('%d/%m/%Y', strtotime($task->updated_at)) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-evenly">
+                                                <a href="{{ route('task-edit', ['task' => $task]) }}" type="button"
+                                                    class="btn btn-warning mr-1">Editar</a>
+                                                <form action="{{ route('task-delete', ['id' => $task->id]) }}"
+                                                    method="post" class="form-delete">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-delete">Excluir</button>
+                                                </form>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

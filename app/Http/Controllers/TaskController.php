@@ -19,7 +19,6 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -81,7 +80,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        $usuarios = User::orderBy('name', 'ASC')->get();
+        return view('tasks.update', ['task' => $task, 'usuarios' => $usuarios]);
     }
 
     /**
@@ -91,9 +91,16 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, int $id)
     {
-        //
+        if ($request->isMethod('put')) {
+            $result = $this->taskService->update($id, $request->all());
+            if ($result) {
+                return redirect('tasks')->with('success', 'Tarefa Editada com sucesso');
+            } else {
+                return redirect('tasks')->with('success', 'Erro ao tentar editar uma tarefa');
+            }
+        }
     }
 
     /**
@@ -102,8 +109,13 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(int $id)
     {
-        //
+        $result = $this->taskService->delete($id);
+        if ($result) {
+            return redirect('tasks')->with('success', 'Tarefa Editada com sucesso');
+        } else {
+            return redirect('tasks')->with('success', 'Erro ao tentar editar uma tarefa');
+        }
     }
 }

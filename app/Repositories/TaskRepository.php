@@ -22,7 +22,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function getById($id)
     {
-        return $this->task->with('prompts')->findOrFail($id);
+        return $this->task->with(['userCreate', 'userResponse'])->findOrFail($id);
     }
 
     public function create(array $attributes)
