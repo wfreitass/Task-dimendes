@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@include('sweetalert::alert')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -79,7 +79,7 @@
                                                         method="post" class="form-delete">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit"
+                                                        <button type="button"
                                                             class="btn btn-danger btn-delete ms-2">Excluir</button>
                                                     </form>
                                                 </div>
@@ -107,6 +107,33 @@
         document.getElementById('order').addEventListener('change', function() {
             document.getElementById('form-order').submit();
         });
+
+        let btnDelete = document.getElementsByClassName("btn-delete");
+        Object.keys(btnDelete).forEach((i) => {
+            btnDelete[i].addEventListener('click', (event) => {
+                swal.fire({
+                    title: 'Cuidado !!!',
+                    text: "Deseja excluir esses dados",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Excluir',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        swal.fire(
+                            'Excluido',
+                            'Dados excluidos com sucesso',
+                            'success'
+                        )
+                        setTimeout(() => {
+                            event.target.parentNode.submit()
+                        }, 2000);
+                    }
+                })
+            })
+        })
     </script>
 
 @endsection
